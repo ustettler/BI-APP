@@ -1,2 +1,2 @@
 # BI-APP
-BI App with JS/CSS/HTML/PHP/MySQL
+BI app with JavaScript/CSS/HTML/PHP/MySQL
