@@ -5,7 +5,6 @@ require_once('./credentials.php');
 
 // Create a database connection
 $conn = new mysqli($host, $username, $password, $database);
-$sql = "SELECT * FROM stats";
 
 // Check connection
 if ($conn->connect_error) {
@@ -13,6 +12,16 @@ if ($conn->connect_error) {
 } else {
     echo "Connected successfully";
 }
+
+// SQL-Abfrage für die Tabelle "stats"
+$sql_stats = "SELECT * FROM stats";
+$result_stats = $conn->query($sql_stats);
+
+// SQL-Abfrage für die Tabelle "bills"
+$sql_bills = "SELECT * FROM bills";
+$result_bills = $conn->query($sql_bills);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +77,7 @@ if ($conn->connect_error) {
                         if ($result->num_rows > 0) {
                             // Ausgabe der Daten in einer HTML-Box
                             while($row = $result->fetch_assoc()) {
-                                echo "<span id='kwh' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["today"] . " kW/h</span>";
+                                echo "<span id='kwh' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["today"] . "</span> kW/h";
                             }
                         } else {
                             echo "Keine Daten gefunden";
@@ -91,7 +100,7 @@ if ($conn->connect_error) {
                         if ($result->num_rows > 0) {
                             // Ausgabe der Daten in einer HTML-Box
                             while($row = $result->fetch_assoc()) {
-                                echo "<span id='kwh-week' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["week"] . " kW/h</span>"; 
+                                echo "<span id='kwh-week' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["week"] . "</span> kW/h"; 
                             }
                         } else {
                             echo "Keine Daten gefunden..";
@@ -116,7 +125,7 @@ if ($conn->connect_error) {
                         if ($result->num_rows > 0) {
                             // Ausgabe der Daten in einer HTML-Box
                             while($row = $result->fetch_assoc()) {
-                                echo "<span id='kwh-year' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["year"] . " kW/h</span>";// Daten aus der Spalte "week" in kW/h
+                                echo "<span id='kwh-year' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["year"] . "</span> kW/h";// Daten aus der Spalte "week" in kW/h
                             }
                         } else {
                             echo "Keine Daten gefunden..";
@@ -140,7 +149,7 @@ if ($conn->connect_error) {
                         if ($result->num_rows > 0) {
                             // Ausgabe der Daten in einer HTML-Box
                             while($row = $result->fetch_assoc()) { 
-                                echo "<span id='kwh-all' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["alll"] . " kW/h</span>";
+                                echo "<span id='kwh-all' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["alll"] . "</span> kW/h";
                             }
                         } else {
                             echo "Keine Daten gefunden..";
@@ -164,30 +173,29 @@ if ($conn->connect_error) {
                     </div>
                     <table>
                           
-                        <tr>
-                            <th>Periode</th>
-                            <th>Kw/h</th>
-                            <th>Betrag</th>
-                            <th>Datenblatt</th>
-                        </tr>
-                        <tr>
-                            <td>Januar - März</td>
-                            <td>1110</td>
-                            <td>120 CHF</td>
-                            <td><a href="#" class="btn">Anschauen</a></td>
-                        </tr>
-                        <tr>
-                            <td>März - Juni</td>
-                            <td>1110</td>
-                            <td>120 CHF</td>
-                            <td><a href="#" class="btn">Anschauen</a></td>
-                        </tr>
-                        <tr>
-                            <td>Juni - Oktober</td>
-                            <td>1110</td>
-                            <td>120 CHF</td>
-                            <td><a href="#" class="btn">Anschauen</a></td>
-                        </tr>
+                    <tr>
+            <th>Periode</th>
+            <th>Kw/h</th>
+            <th>Betrag</th>
+            <th>Datenblatt</th>
+        </tr>
+        <?php
+        // Überprüfen, ob Datensätze vorhanden sind
+        if ($result_bills->num_rows > 0) {
+            // Ausgabe der Daten in jeder Zeile der Tabelle
+            while($row = $result_bills->fetch_assoc()) {
+                echo "<tr>";
+                // Ausgabe der Rechnungsdaten
+                echo "<td>" . $row["periode"] . "</td>";
+                echo "<td>" . $row["total_kwh"] . "</td>";
+                echo "<td>" . $row["money"] . " CHF</td>";
+                echo "<td><a href='" . $row["doc"] . "' class='btn' target='_blank'>Anschauen</a></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "Keine Rechnungsdaten gefunden";
+        }
+        ?>
                         
                     </table>
                 </div>
