@@ -20,6 +20,13 @@ h2 {
 h3 {
     color: #999;
 }
+
+#kwh {
+    font-size: 36px;
+    font-weight: bold;
+    color: green;
+  }
+  
 .btn {
     background: brown;
     color: white;
@@ -233,3 +240,4 @@ td {
         display: none;
     }
 }
+

@@ -1,5 +1,4 @@
 <?php
-// your_script.php
 
 // Include the credentials
 require_once('./credentials.php');
@@ -22,7 +21,8 @@ if ($conn->connect_error) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+   
     <title>BI Admin Panel</title>
 </head>
 
@@ -68,7 +68,7 @@ if ($conn->connect_error) {
                         if ($result->num_rows > 0) {
                             // Ausgabe der Daten in einer HTML-Box
                             while($row = $result->fetch_assoc()) {
-                                echo "<h1>" . $row["today"] . " kW/h</h1>"; // Daten aus der Spalte "today" in kW/h
+                                echo "<span id='kwh' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["today"] . " kW/h</span>";
                             }
                         } else {
                             echo "Keine Daten gefunden";
@@ -91,7 +91,7 @@ if ($conn->connect_error) {
                         if ($result->num_rows > 0) {
                             // Ausgabe der Daten in einer HTML-Box
                             while($row = $result->fetch_assoc()) {
-                                echo "<h1>" . $row["week"] . " kW/h</h1>"; // Daten aus der Spalte "week" in kW/h
+                                echo "<span id='kwh-week' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["week"] . " kW/h</span>"; 
                             }
                         } else {
                             echo "Keine Daten gefunden..";
@@ -116,7 +116,7 @@ if ($conn->connect_error) {
                         if ($result->num_rows > 0) {
                             // Ausgabe der Daten in einer HTML-Box
                             while($row = $result->fetch_assoc()) {
-                                echo "<h1>" . $row["year"] . " kW/h</h1>"; // Daten aus der Spalte "week" in kW/h
+                                echo "<span id='kwh-year' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["year"] . " kW/h</span>";// Daten aus der Spalte "week" in kW/h
                             }
                         } else {
                             echo "Keine Daten gefunden..";
@@ -130,17 +130,17 @@ if ($conn->connect_error) {
 
 
                 <div class="card">
-                    <div class="box">
+                    <div class="box">    
                     <?php
-                    // SQL-Abfrage zum Abrufen von Daten
+                        // SQL-Abfrage zum Abrufen von Daten
                         $sql = "SELECT alll FROM stats";
                         $result = $conn->query($sql);
 
                         // Überprüfen, ob Datensätze vorhanden sind
                         if ($result->num_rows > 0) {
                             // Ausgabe der Daten in einer HTML-Box
-                            while($row = $result->fetch_assoc()) {
-                                echo "<h1>" . $row["alll"] . " kW/h</h1>"; // Daten aus der Spalte "week" in kW/h
+                            while($row = $result->fetch_assoc()) { 
+                                echo "<span id='kwh-all' style='font-size: 36px; font-weight: bold; color: green;'>" . $row["alll"] . " kW/h</span>";
                             }
                         } else {
                             echo "Keine Daten gefunden..";
@@ -216,6 +216,6 @@ if ($conn->connect_error) {
             </div>
         </div>
     </div>
+    <script src="./script.js"></script>
 </body>
-
 </html>
