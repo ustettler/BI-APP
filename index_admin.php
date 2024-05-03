@@ -36,9 +36,31 @@ $labels_from_database = array();
 $data_from_database = array();
 if ($result_ani->num_rows > 0) {
     while ($row = $result_ani->fetch_assoc()) {
-        $labels_from_database[] = $row['month']; // Verwende 'month' als Label
-        $data_from_database[] = $row['value']; // Verwende 'value' als Datenwert
+        $labels_from_database[] = $row['month']; 
+        $data_from_database[] = $row['value']; 
     }
+}
+
+// Function to update database value
+function updateValue($columnName, $newValue) {
+    global $conn;
+    // Verwenden Prepared Statements, um SQL-Injektionen zu verhindern
+    $sql = "UPDATE stats SET $columnName = ? WHERE id = 1"; 
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $newValue); 
+    if ($stmt->execute() === TRUE) {
+        echo "Record updated successfully";
+    } else {
+        echo "Error updating record: " . $conn->error;
+    }
+    $stmt->close();
+}
+
+// Check if form is submitted for editing
+if(isset($_POST['editValue'])) {
+    $columnName = $_POST['columnName']; 
+    $newValue = $_POST['newValue'];
+    updateValue($columnName, $newValue);
 }
 ?>
 
@@ -84,6 +106,7 @@ if ($result_ani->num_rows > 0) {
             </div>
         </div>
         <div class="content">
+        
             <div class="cards">
                 <div class="card">
                 <div class="box">
@@ -103,13 +126,14 @@ if ($result_ani->num_rows > 0) {
                         }
                         ?>
                         <h3>Heute</h3>
-                        
-                    </div>
-                    <div class="icon-case">
-                    <div class="user">
-                    <a href="#" class="btn">Edit</a>
+                        <br/>
+                    <!-- Form for updating "today" -->
+                    <form method="post">
+                        <input type="hidden" name="columnName" value="today"> 
+                        <input type="text" id="todayValue" name="newValue">
+                        <button type="submit" class="btn" name="editValue" value="true">Updaten</button>
+                    </form>   
                 </div>
-                    </div>
                 </div>
 
                 <div class="card">
@@ -132,11 +156,17 @@ if ($result_ani->num_rows > 0) {
     
                         ?>
                         <h3>Diese Woche</h3>
+                        <br />
+                       <!-- Form for updating "week" -->
+                        <form method="post">
+                            <input type="hidden" name="columnName" value="week"> <!-- Spaltenname -->
+                            <label for="weekValue">Diese Woche:</label>
+                            <input type="text" id="weekValue" name="newValue">
+                            <button type="submit" name="editValue" class="btn" value="true">Updaten</button>
+                        </form>
                     </div>
                     <div class="icon-case">
-                    <div class="user">
-                    <a href="#" class="btn">Edit</a>
-                </div>
+                    
                     </div>
                 </div>
 
@@ -158,11 +188,16 @@ if ($result_ani->num_rows > 0) {
                         }
                         ?>
                         <h3>Dieses Jahr</h3>
+                        <br/>
+                        <!-- Form for updating "week" -->
+                        <form method="post">
+                            <input type="hidden" name="columnName" value="year"> <!-- Spaltenname -->
+                            <label for="yearValue">Diese Woche:</label>
+                            <input type="text" id="yearValue" name="newValue">
+                            <button type="submit" name="editValue" class="btn" value="true">Updaten</button>
+                        </form>
                     </div>
                     <div class="icon-case">
-                    <div class="user">
-                    <a href="#" class="btn">Edit</a>
-                </div>
                     </div>
                 </div>
 
@@ -188,11 +223,16 @@ if ($result_ani->num_rows > 0) {
                         $conn->close();
                         ?>
                         <h3>Von anfang</h3>
+                        <br/>
+                        <!-- Form for updating "week" -->
+                        <form method="post">
+                            <input type="hidden" name="columnName" value="alll"> <!-- Spaltenname -->
+                            <label for="alllValue">Diese Woche:</label>
+                            <input type="text" id="alllValue" name="newValue">
+                            <button type="submit" name="editValue" class="btn" value="true">Updaten</button>
+                        </form>
                     </div>
                     <div class="icon-case">
-                    <div class="user">
-                    <a href="#" class="btn">Edit</a>
-                </div>
                     </div>
                 </div>
             </div>
