@@ -53,7 +53,7 @@ if ($result_ani->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <title>BI Panel</title>
+    <title>ADMIN  - BI Panel</title>
 </head>
 
 <body>
@@ -61,7 +61,7 @@ if ($result_ani->num_rows > 0) {
         <div class="brand-name">
               <!--  PHP als komponennten einfüegn -->
             <h1><?php
-    include './componenten/Logo.php';
+    include './componenten/Logo_Admin.php';
             ?>
         </h1>
         </div>
@@ -79,9 +79,7 @@ if ($result_ani->num_rows > 0) {
                    <!--  <button type="submit"></button> -->
                 </div>
                 <div class="user">
-                    <a href="./index_admin.php" class="btn">Admin</a>
-                    <div class="img-case">
-                    </div>
+                    <a href="./index.php" class="btn">Home</a>
                 </div>
             </div>
         </div>
@@ -105,8 +103,12 @@ if ($result_ani->num_rows > 0) {
                         }
                         ?>
                         <h3>Heute</h3>
+                        
                     </div>
                     <div class="icon-case">
+                    <div class="user">
+                    <a href="#" class="btn">Edit</a>
+                </div>
                     </div>
                 </div>
 
@@ -132,6 +134,9 @@ if ($result_ani->num_rows > 0) {
                         <h3>Diese Woche</h3>
                     </div>
                     <div class="icon-case">
+                    <div class="user">
+                    <a href="#" class="btn">Edit</a>
+                </div>
                     </div>
                 </div>
 
@@ -155,6 +160,9 @@ if ($result_ani->num_rows > 0) {
                         <h3>Dieses Jahr</h3>
                     </div>
                     <div class="icon-case">
+                    <div class="user">
+                    <a href="#" class="btn">Edit</a>
+                </div>
                     </div>
                 </div>
 
@@ -182,6 +190,9 @@ if ($result_ani->num_rows > 0) {
                         <h3>Von anfang</h3>
                     </div>
                     <div class="icon-case">
+                    <div class="user">
+                    <a href="#" class="btn">Edit</a>
+                </div>
                     </div>
                 </div>
             </div>
@@ -190,7 +201,7 @@ if ($result_ani->num_rows > 0) {
                 <div class="recent-payments">
                     <div class="title">
                         <h2>Berechnung</h2>
-                        <a href="#" class="btn">Alles anschauen</a>
+                        <a href="#" class="btn">Edit</a>
                     </div>
                     <table>
                           
@@ -223,7 +234,7 @@ if ($result_ani->num_rows > 0) {
                 <div class="statss">
                     <div class="title">
                         <h2>Statistik</h2>
-                        <a href="#" class="btn">Alles anschauen</a>
+                        <a href="#" class="btn">Edit</a>
                     </div>
                     <table>
         <tr>
