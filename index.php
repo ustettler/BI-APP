@@ -20,9 +20,9 @@ $result_stats = $conn->query($sql_stats);
 // SQL-Abfrage für die Tabelle "bills"
 $sql_bills = "SELECT * FROM bills";
 $result_bills = $conn->query($sql_bills);
-
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -189,7 +189,7 @@ $result_bills = $conn->query($sql_bills);
                 echo "<td>" . $row["periode"] . "</td>";
                 echo "<td>" . $row["total_kwh"] . "</td>";
                 echo "<td>" . $row["money"] . " CHF</td>";
-                echo "<td><a href='" . $row["doc"] . "' class='btn' target='_blank'>Anschauen</a></td>";
+                echo "<td><a href='generate_pdf.php?periode=" . $row["periode"] . "&total_kwh=" . $row["total_kwh"] . "&money=" . $row["money"] . "' class='btn' target='_blank'>PDF generieren</a></td>";
                 echo "</tr>";
             }
         } else {
@@ -199,7 +199,7 @@ $result_bills = $conn->query($sql_bills);
                         
                     </table>
                 </div>
-                <div class="new-students">
+                <div class="statss">
                     <div class="title">
                         <h2>Statistik</h2>
                         <a href="#" class="btn">Alles anschauen</a>
