@@ -241,3 +241,6 @@ td {
     }
 }
 
+canvas {
+    border: 1px solid transparent;
+}

@@ -97,3 +97,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
   animateValue();
 });
+

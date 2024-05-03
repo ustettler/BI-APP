@@ -20,7 +20,28 @@ $result_stats = $conn->query($sql_stats);
 // SQL-Abfrage für die Tabelle "bills"
 $sql_bills = "SELECT * FROM bills";
 $result_bills = $conn->query($sql_bills);
+
+
+// SQL-Abfrage für die Tabelle "stats_animation"
+$sql_ani = "SELECT * FROM stats_animation";
+$result_ani = $conn->query($sql_ani);
+
+// Überprüfen, ob die Abfrage erfolgreich war
+if (!$result_ani) {
+    die("Abfragefehler: " . $conn->error);
+}
+
+// Daten in ein assoziatives Array konvertieren
+$labels_from_database = array();
+$data_from_database = array();
+if ($result_ani->num_rows > 0) {
+    while ($row = $result_ani->fetch_assoc()) {
+        $labels_from_database[] = $row['month']; // Verwende 'month' als Label
+        $data_from_database[] = $row['value']; // Verwende 'value' als Datenwert
+    }
+}
 ?>
+
 
 
 <!DOCTYPE html>
@@ -31,7 +52,7 @@ $result_bills = $conn->query($sql_bills);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <title>BI Admin Panel</title>
 </head>
 
@@ -58,7 +79,7 @@ $result_bills = $conn->query($sql_bills);
                    <!--  <button type="submit"></button> -->
                 </div>
                 <div class="user">
-                    <a href="#" class="btn">Neu</a>
+                    <a href="#" class="btn">Admin</a>
                     <div class="img-case">
                     </div>
                 </div>
@@ -205,21 +226,44 @@ $result_bills = $conn->query($sql_bills);
                         <a href="#" class="btn">Alles anschauen</a>
                     </div>
                     <table>
-                        <!--  
-                        <tr>
-                            <th>Profile</th>
-                            <th>Name</th>
-                            <th>option</th>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>John Steve Doe</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                        -->
+        <tr>
+            <td>
+                <canvas id="doughnutChart" width="300" height="300"></canvas>
+                <script>
+                    var ctx = document.getElementById('doughnutChart').getContext('2d');
+                    var doughnutChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: <?php echo json_encode($labels_from_database); ?>,
+            datasets: [{
+                label: 'Stromverbrauch der letzte Monate',
+                data: <?php echo json_encode($data_from_database); ?>,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(75, 192, 192)',
+                    'rgb(255,255,0)',
+                ]
+            }]
+        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Verbrauch der letzte Monaten'
+                                }
+                            }
+                        }
+                    });
+                </script>
 
-                    </table>
+            </td>
+        </tr>
+    </table>
                 </div>
             </div>
         </div>
