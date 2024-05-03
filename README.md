@@ -1,2 +1,3 @@
 # BI-APP
-BI app with JavaScript/CSS/HTML/PHP/MySQL
+BI App incl. Admin Tool - JavaScript/CSS/HTML/PHP/MySQL
+
