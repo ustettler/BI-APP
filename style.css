@@ -243,12 +243,13 @@ td {
 
 /* Allgemeine Styles für alle Input-Felder */
 input {
-    padding: 10px;
-    font-size: 2rem;
+    padding: 5px;
+    font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 5px;
     outline: none;
     transition: border-color 0.3s ease;
+    margin-bottom: 10px;
   }
   
   /* Styles für den Fokuszustand (Hervorhebung) */
@@ -271,4 +272,14 @@ input {
     border-color: #2ecc71;
   }
   
-  
+
+  .login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }

@@ -1,4 +1,13 @@
 <?php
+session_start();
+
+// Überprüfe, ob der Benutzer angemeldet ist, sonst leite ihn zur logout.php Seite weiter
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("Location: index.php");
+    exit;
+}
+?>
+<?php
 
 // Include the credentials
 require_once('./credentials.php');
@@ -95,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="side-menu">
-        <div class="brand-name" "./del">
+        <div class="brand-name">
               <!--  PHP als komponennten einfüegn -->
             <h1><?php
     include './componenten/Logo_Admin.php';
@@ -116,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    <!--  <button type="submit"></button> -->
                 </div>
                 <div class="user">
-                    <a href="./index.php" class="btn">Logout</a>
+                    <a href="./logout.php" class="btn">Logout</a>
                 </div>
             </div>
         </div>
