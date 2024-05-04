@@ -62,9 +62,24 @@ if(isset($_POST['editValue'])) {
     $newValue = $_POST['newValue'];
     updateValue($columnName, $newValue);
 }
+
+// Stats Animation - hinzufügen
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Daten aus dem Formular erhalten
+    $value = $_POST['value'];
+    $month = $_POST['month'];
+
+    // SQL-Abfrage zum Einfügen der Daten
+    $sql_insert = "INSERT INTO stats_animation (value, month) VALUES ('$value', '$month')";
+
+    if ($conn->query($sql_insert) === TRUE) {
+        echo "Daten erfolgreich hinzugefügt.";
+    } else {
+        echo "Fehler beim Hinzufügen der Daten: " . $conn->error;
+    }
+}
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -109,7 +124,7 @@ if(isset($_POST['editValue'])) {
         
             <div class="cards">
                 <div class="card">
-                <div class="box">
+                <div class="box" style="padding: 20px">
                         <?php
                         // SQL-Abfrage zum Abrufen von Daten
                         $sql = "SELECT today FROM stats";
@@ -127,7 +142,7 @@ if(isset($_POST['editValue'])) {
                         ?>
                         <h3>Heute</h3>
                         <br/>
-                    <!-- Form for updating "today" -->
+                    <!-- Form for updating  -->
                     <form method="post">
                         <input type="hidden" name="columnName" value="today"> 
                         <input type="text" id="todayValue" name="newValue">
@@ -137,7 +152,7 @@ if(isset($_POST['editValue'])) {
                 </div>
 
                 <div class="card">
-                    <div class="box">
+                    <div class="box" style="padding: 20px">
                     <?php
                     // SQL-Abfrage zum Abrufen von Daten
                         $sql = "SELECT week FROM stats";
@@ -157,10 +172,9 @@ if(isset($_POST['editValue'])) {
                         ?>
                         <h3>Diese Woche</h3>
                         <br />
-                       <!-- Form for updating "week" -->
+                       <!-- Form for updating  -->
                         <form method="post">
                             <input type="hidden" name="columnName" value="week"> <!-- Spaltenname -->
-                            <label for="weekValue">Diese Woche:</label>
                             <input type="text" id="weekValue" name="newValue">
                             <button type="submit" name="editValue" class="btn" value="true">Updaten</button>
                         </form>
@@ -171,7 +185,7 @@ if(isset($_POST['editValue'])) {
                 </div>
 
                 <div class="card">
-                    <div class="box">
+                    <div class="box" style="padding: 20px">
                     <?php
                     // SQL-Abfrage zum Abrufen von Daten
                         $sql = "SELECT year FROM stats";
@@ -189,10 +203,9 @@ if(isset($_POST['editValue'])) {
                         ?>
                         <h3>Dieses Jahr</h3>
                         <br/>
-                        <!-- Form for updating "week" -->
+                        <!-- Form for updating -->
                         <form method="post">
                             <input type="hidden" name="columnName" value="year"> <!-- Spaltenname -->
-                            <label for="yearValue">Diese Woche:</label>
                             <input type="text" id="yearValue" name="newValue">
                             <button type="submit" name="editValue" class="btn" value="true">Updaten</button>
                         </form>
@@ -203,7 +216,7 @@ if(isset($_POST['editValue'])) {
 
 
                 <div class="card">
-                    <div class="box">    
+                    <div class="box" style="padding: 20px">    
                     <?php
                         // SQL-Abfrage zum Abrufen von Daten
                         $sql = "SELECT alll FROM stats";
@@ -224,10 +237,9 @@ if(isset($_POST['editValue'])) {
                         ?>
                         <h3>Von anfang</h3>
                         <br/>
-                        <!-- Form for updating "week" -->
+                        <!-- Form for updating  -->
                         <form method="post">
                             <input type="hidden" name="columnName" value="alll"> <!-- Spaltenname -->
-                            <label for="alllValue">Diese Woche:</label>
                             <input type="text" id="alllValue" name="newValue">
                             <button type="submit" name="editValue" class="btn" value="true">Updaten</button>
                         </form>
@@ -280,23 +292,38 @@ if(isset($_POST['editValue'])) {
         <tr>
             <td>
                 <canvas id="doughnutChart" width="300" height="300"></canvas>
+                <!-- Formularfelder für Wert und Monat -->
+                <br/>
+                <h3>Neue Werte hinzufügen</h3>
+                <br/>
+                <form method="post">
+                    <label for="value">Wert:</label>
+                    <input type="text" id="value" name="value" required>
+                <br/>
+                    <label for="month">Monat:</label>
+                    <input type="text" id="month" name="month" required>
+                <br/>
+                    <button type="submit" class="btn">Hinzufügen</button>
+                </form>
+
+                <!-- JavaScript-Code -->
                 <script>
                     var ctx = document.getElementById('doughnutChart').getContext('2d');
                     var doughnutChart = new Chart(ctx, {
                         type: 'doughnut',
                         data: {
                             labels: <?php echo json_encode($labels_from_database); ?>,
-            datasets: [{
-                label: 'Stromverbrauch der letzte Monate',
-                data: <?php echo json_encode($data_from_database); ?>,
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(75, 192, 192)',
-                    'rgb(255,255,0)',
-                ]
-            }]
-        },
+                            datasets: [{
+                                label: 'Stromverbrauch der letzten Monate',
+                                data: <?php echo json_encode($data_from_database); ?>,
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(255, 255, 0)',
+                                ]
+                            }]
+                        },
                         options: {
                             responsive: true,
                             plugins: {
@@ -305,7 +332,7 @@ if(isset($_POST['editValue'])) {
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Verbrauch der letzte Monaten'
+                                    text: 'Verbrauch der letzten Monate'
                                 }
                             }
                         }
