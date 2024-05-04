@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <title>ADMIN  - BI Panel</title>
 </head>
@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    <!--  <button type="submit"></button> -->
                 </div>
                 <div class="user">
-                    <a href="./index.php" class="btn">Back Home</a>
+                    <a href="./index.php" class="btn">Logout</a>
                 </div>
             </div>
         </div>
@@ -240,8 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <button type="submit" name="editValue" class="btn" value="true">Updaten</button>
                         </form>
                     </div>
-                    <div class="icon-case">
-                    </div>
+                   
                 </div>
             </div>
 
@@ -282,13 +281,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h3 style="padding-top: 20px; padding-left: 20px">Neue Rechnung hinzufügen</h3>
 <form action="./insert_record.php" method="post" style="padding-top: 20px; padding-left: 20px">
     <label for="periode">Periode:</label>
-    <input id="periode" name="periode" required><br><br>
+    <input id="periode" type="text" name="periode" required><br><br>
 
-    <label for="total_kwh">Kw/h:</label>
-    <input id="total_kwh" name="total_kwh" required><br><br>
+    <label for="total_kwh">Kw/h: &nbsp; &nbsp; </label>
+    <input id="total_kwh" type="number"  name="total_kwh" required><br><br>
 
-    <label for="money">Betrag:</label>
-    <input id="money" name="money" required><br><br>
+    <label for="money">Betrag:&nbsp;  </label>
+    <input id="money" type="number"  name="money" required><br><br>
 
 
     <input type="submit" class="btn" value="Datensatz einfügen">
@@ -302,17 +301,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <tr>
             <td>
                 <canvas id="doughnutChart" width="300" height="300"></canvas>
-                <!-- Formularfelder für Wert und Monat -->
                 <br/>
-                <h3>Neue Werte hinzufügen</h3>
+                <hr/>
+                <h3 style="margin-top: 20px">Neue Werte hinzufügen</h3>
                 <br/>
                 <form method="post">
-                    <label for="value">kW/h :</label>
+                    <label for="value">kW/h:&nbsp; </label>
                     <input type="text" id="value" name="value" required>
-                <br/>
+                <br/> <br/>
                     <label for="month">Monat:</label>
                     <input type="text" id="month" name="month" required>
-                <br/>
+                <br/><br/>
                     <button type="submit" class="btn">Hinzufügen</button>
                 </form>
 

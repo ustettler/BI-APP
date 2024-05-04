@@ -241,6 +241,34 @@ td {
     }
 }
 
-canvas {
-    border: 1px solid transparent;
-}
+/* Allgemeine Styles für alle Input-Felder */
+input {
+    padding: 10px;
+    font-size: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Styles für den Fokuszustand (Hervorhebung) */
+  input:focus {
+    border-color: dodgerblue;
+  }
+  
+  /* Styles für den Platzhaltertext */
+  input::placeholder {
+    color: #aaa;
+  }
+  
+  /* Styles für ungültige Eingaben */
+  input:invalid {
+    border-color: #e74c3c;
+  }
+  
+  /* Styles für gültige Eingaben */
+  input:valid {
+    border-color: #2ecc71;
+  }
+  
+  
