@@ -1,5 +1,5 @@
 <?php
     // Hier ist PHP-Code
-    $name = "Power Energy";
+    $name = "Power Energy AG";
     echo "$name";
 ?>

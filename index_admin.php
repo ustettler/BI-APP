@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    <!--  <button type="submit"></button> -->
                 </div>
                 <div class="user">
-                    <a href="./index.php" class="btn">Home</a>
+                    <a href="./index.php" class="btn">Back Home</a>
                 </div>
             </div>
         </div>
@@ -277,7 +277,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Keine Rechnungsdaten gefunden";
     }
     ?>
-</table>
+</table >
+<hr>
+<h3 style="padding-top: 20px; padding-left: 20px">Neue Rechnung hinzufügen</h3>
+<form action="./insert_record.php" method="post" style="padding-top: 20px; padding-left: 20px">
+    <label for="periode">Periode:</label>
+    <input id="periode" name="periode" required><br><br>
+
+    <label for="total_kwh">Kw/h:</label>
+    <input id="total_kwh" name="total_kwh" required><br><br>
+
+    <label for="money">Betrag:</label>
+    <input id="money" name="money" required><br><br>
+
+
+    <input type="submit" class="btn" value="Datensatz einfügen">
+</form>
                 </div>
                 <div class="statss">
                     <div class="title">
