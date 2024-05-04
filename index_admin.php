@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="side-menu">
-        <div class="brand-name">
+        <div class="brand-name" "./del">
               <!--  PHP als komponennten einfüegn -->
             <h1><?php
     include './componenten/Logo_Admin.php';
@@ -167,8 +167,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         } else {
                             echo "Keine Daten gefunden..";
                         }
-
-    
                         ?>
                         <h3>Diese Woche</h3>
                         <br />
@@ -183,7 +181,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="box" style="padding: 20px">
                     <?php
@@ -213,7 +210,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="icon-case">
                     </div>
                 </div>
-
 
                 <div class="card">
                     <div class="box" style="padding: 20px">    
@@ -253,40 +249,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="recent-payments">
                     <div class="title">
                         <h2>Berechnung</h2>
-                        <a href="#" class="btn">Edit</a>
                     </div>
-                    <table>
-                          
-                    <tr>
-            <th>Periode</th>
-            <th>Kw/h</th>
-            <th>Betrag</th>
-            <th>Datenblatt</th>
-        </tr>
-        <?php
-        // Überprüfen, ob Datensätze vorhanden sind
-        if ($result_bills->num_rows > 0) {
-            // Ausgabe der Daten in jeder Zeile der Tabelle
-            while($row = $result_bills->fetch_assoc()) {
-                echo "<tr>";
-                // Ausgabe der Rechnungsdaten
-                echo "<td>" . $row["periode"] . "</td>";
-                echo "<td>" . $row["total_kwh"] . "</td>";
-                echo "<td>" . $row["money"] . " CHF</td>";
-                echo "<td><a href='generate_pdf.php?periode=" . $row["periode"] . "&total_kwh=" . $row["total_kwh"] . "&money=" . $row["money"] . "' class='btn' target='_blank'>PDF generieren</a></td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "Keine Rechnungsdaten gefunden";
+            
+        <table>     
+    <tr>
+        <th>Periode</th>
+        <th>Kw/h</th>
+        <th>Betrag</th>
+        <th>Datenblatt</th>
+        <th>Löschen</th>
+    </tr>
+    <?php
+    // Überprüfen, ob Datensätze vorhanden sind
+    if ($result_bills->num_rows > 0) {
+        // Ausgabe der Daten in jeder Zeile der Tabelle
+        while($row = $result_bills->fetch_assoc()) {
+            echo "<tr>";
+            // Ausgabe der Rechnungsdaten
+            echo "<td>" . $row["periode"] . "</td>";
+            echo "<td>" . $row["total_kwh"] . "</td>";    
+            echo "<td>" . $row["money"] . " CHF</td>";
+            echo "<td><a href='generate_pdf.php?periode=" . $row["periode"] . "&total_kwh=" . $row["total_kwh"] . "&money=" . $row["money"] . "' class='btn' target='_blank'>PDF generieren</a></td>";
+            echo "<td><a href='./delete_record.php?id=" . $row["id"] . "' class='btn-delete'>X</a></td>"; // Hier wird die Löschfunktion aufgerufen, wobei "id" die eindeutige ID des Datensatzes ist
+            echo "</tr>";
         }
-        ?>
-                        
-                    </table>
+    } else {
+        echo "Keine Rechnungsdaten gefunden";
+    }
+    ?>
+</table>
                 </div>
                 <div class="statss">
                     <div class="title">
                         <h2>Statistik</h2>
-                        <a href="#" class="btn">Edit</a>
                     </div>
                     <table>
         <tr>
@@ -297,7 +292,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h3>Neue Werte hinzufügen</h3>
                 <br/>
                 <form method="post">
-                    <label for="value">Wert:</label>
+                    <label for="value">kW/h :</label>
                     <input type="text" id="value" name="value" required>
                 <br/>
                     <label for="month">Monat:</label>

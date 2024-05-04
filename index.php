@@ -79,7 +79,7 @@ if ($result_ani->num_rows > 0) {
                    <!--  <button type="submit"></button> -->
                 </div>
                 <div class="user">
-                    <a href="./index_admin.php" class="btn">Admin</a>
+                    <a href="./index_admin.php" class="btn">Adminpanel</a>
                     <div class="img-case">
                     </div>
                 </div>
