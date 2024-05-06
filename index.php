@@ -80,6 +80,7 @@ if ($result_ani->num_rows > 0) {
                 </div>
                 <div class="user">
                     <a href="./login.php" class="btn">Adminpanel</a>
+                    <a href="./new_user.php" class="btn">Neuer Benutzer</a>
                     <div class="img-case">
                     </div>
                 </div>
