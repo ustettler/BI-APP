@@ -40,6 +40,27 @@ if ($result_ani->num_rows > 0) {
         $data_from_database[] = $row['value']; // Verwende 'value' als Datenwert
     }
 }
+
+
+// SQL-Abfrage für die Tabelle "stats_quantity"
+$sql_quantity = "SELECT * FROM quantity_user";
+$result_quantity = $conn->query($sql_quantity);
+
+// Überprüfen, ob die Abfrage erfolgreich war
+if (!$result_quantity) {
+    die("Abfragefehler: " . $conn->error);
+}
+
+// Daten in ein assoziatives Array konvertieren
+$labels_from_database_q = array();
+$data_from_database_q = array();
+if ($result_quantity->num_rows > 0) {
+    while ($row = $result_quantity->fetch_assoc()) {
+        $labels_from_database_q[] = $row['month']; // Verwende 'month' als Label
+        $data_from_database_q[] = $row['user']; // Verwende 'user' als Datenwert
+    }
+}
+
 ?>
 
 
@@ -79,8 +100,8 @@ if ($result_ani->num_rows > 0) {
                    <!--  <button type="submit"></button> -->
                 </div>
                 <div class="user">
-                    <a href="./login.php" class="btn">Adminpanel</a>
-                    <a href="./new_user.php" class="btn">Neuer Benutzer</a>
+                    <a href="./login.php" class="btn">Login</a>
+                    <a href="./new_user.php" class="btn">Registrieren</a>
                     <div class="img-case">
                     </div>
                 </div>
@@ -187,6 +208,7 @@ if ($result_ani->num_rows > 0) {
                 </div>
             </div>
 
+
             <div class="content-2">
                 <div class="recent-payments">
                     <div class="title">
@@ -218,35 +240,90 @@ if ($result_ani->num_rows > 0) {
             echo "Keine Rechnungsdaten gefunden";
         }
         ?>
-                        
                     </table>
                 </div>
+
+            
+
+            <div class="content-2">
+                <div class="recent-payments">
+                    <div class="title">
+                        <h2>Benutzer</h2>
+                    </div>
+                    <table>
+            <tr>
+                <td>
+                    <canvas id="recentBarChart" width="300" height="300"></canvas>
+                    <script>
+                        var ctx1 = document.getElementById('recentBarChart').getContext('2d');
+                        var recentBarChart = new Chart(ctx1, {
+                            type: 'bar',
+                            data: {
+                                labels: <?php echo json_encode($labels_from_database_q); ?>,
+                                datasets: [{
+                                    label: 'Benutzer Anzahl ersten Monat',
+                                    data: <?php echo json_encode($data_from_database_q); ?>,
+                                    backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(75, 192, 192)',
+                                        'rgb(255,255,0)',
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Benutzer in den letzte Monaten'
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </td>
+            </tr>
+        </table>
+                </div>
+
+
+
                 <div class="statss">
                     <div class="title">
-                        <h2>Statistik</h2>
+                        <h2>Vebrauch</h2>
                         <a href="#" class="btn">Alles anschauen</a>
                     </div>
                     <table>
-        <tr>
-            <td>
-                <canvas id="doughnutChart" width="300" height="300"></canvas>
-                <script>
+                 <tr>
+                    <td>
+                 <canvas id="doughnutChart" width="300" height="300"></canvas>
+                 <script>
                     var ctx = document.getElementById('doughnutChart').getContext('2d');
                     var doughnutChart = new Chart(ctx, {
                         type: 'doughnut',
                         data: {
                             labels: <?php echo json_encode($labels_from_database); ?>,
-            datasets: [{
-                label: 'Stromverbrauch der letzte Monate',
-                data: <?php echo json_encode($data_from_database); ?>,
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(75, 192, 192)',
-                    'rgb(255,255,0)',
-                ]
-            }]
-        },
+                            datasets: [{
+                                label: 'Stromverbrauch der letzte Monate',
+                                data: <?php echo json_encode($data_from_database); ?>,
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(255,255,0)',
+                                ]
+                            }]
+                        },
                         options: {
                             responsive: true,
                             plugins: {
@@ -262,10 +339,10 @@ if ($result_ani->num_rows > 0) {
                     });
                 </script>
 
-            </td>
-        </tr>
-    </table>
-                </div>
+                    </td>
+                </tr>
+            </table>
+         </div>
             </div>
         </div>
     </div>
