@@ -88,6 +88,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+
+// SQL-Abfrage für die Tabelle "stats_quantity"
+$sql_quantity = "SELECT * FROM quantity_user";
+$result_quantity = $conn->query($sql_quantity);
+
+// Überprüfen, ob die Abfrage erfolgreich war
+if (!$result_quantity) {
+    die("Abfragefehler: " . $conn->error);
+}
+
+// Daten in ein assoziatives Array konvertieren
+$labels_from_database_q = array();
+$data_from_database_q = array();
+if ($result_quantity->num_rows > 0) {
+    while ($row = $result_quantity->fetch_assoc()) {
+        $labels_from_database_q[] = $row['month']; // Verwende 'month' als Label
+        $data_from_database_q[] = $row['user']; // Verwende 'user' als Datenwert
+    }
+}
+
+// Check if form is submitted for editing
+if(isset($_POST['editValue'])) {
+    $columnName = $_POST['columnName']; 
+    $newValue = $_POST['newValue'];
+    updateValue($columnName, $newValue);
+}
+
+// Daten aus dem Formular erhalten
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user = $_POST['quantity']; // Verwende 'quantity' für Benutzer
+    $month = $_POST['month'];
+
+    // Überprüfen, ob der Eintrag bereits vorhanden ist
+    $sql_check = "SELECT * FROM quantity_user WHERE user = '$user' AND month = '$month'";
+    $result_check = $conn->query($sql_check);
+
+    if ($result_check->num_rows > 0) {
+        echo "Der Eintrag existiert bereits.";
+    } else {
+        // SQL-Abfrage zum Einfügen der Daten in die Tabelle "quantity_user"
+        $sql_insert = "INSERT INTO quantity_user (user, month) VALUES ('$user', '$month')";
+
+        // Versuche, die SQL-Abfrage auszuführen
+        if ($conn->query($sql_insert) === TRUE) {
+            echo "Daten erfolgreich hinzugefügt.";
+        } else {
+            echo "Fehler beim Hinzufügen der Daten: " . $conn->error;
+        }
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -300,8 +351,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     <input type="submit" class="btn" value="Datensatz einfügen">
-</form>
-                </div>
+    </form>
+    </div>
+
+    <div class="content-2">
+    <div class="recent-payments">
+        <div class="title">
+            <h2>Benutzer</h2>
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <canvas id="recentBarChart" width="300" height="300"></canvas>
+                    <script>
+                        var ctx1 = document.getElementById('recentBarChart').getContext('2d');
+                        var recentBarChart = new Chart(ctx1, {
+                            type: 'bar',
+                            data: {
+                                labels: <?php echo json_encode($labels_from_database_q); ?>,
+                                datasets: [{
+                                    label: 'Benutzer Anzahl ersten Monat',
+                                    data: <?php echo json_encode($data_from_database_q); ?>,
+                                    backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(75, 192, 192)',
+                                        'rgb(255,255,0)',
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Benutzer in den letzte Monaten'
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <h3 style="margin-left: 20px; margin-top: 20px">Neuen Benutzer anzahl</h3>
+        <form method="post" style="margin-left: 20px; margin-top: 20px; margin-bottom: 50px>
+            <label for="month">Monat:&nbsp; </label>
+            <input type="text" id="month" name="month" required>
+            <br/><br/>
+            <label for="quantity">Menge:</label>
+            <input type="text" id="quantity" name="quantity" required>
+            <br/><br/>
+            <button type="submit" class="btn"style="margin-bottom: 20px">Hinzufügen</button>
+        </form>
+    </div>
+</div>
+
+
+
                 <div class="statss">
                     <div class="title">
                         <h2>Statistik</h2>
@@ -356,7 +473,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
                     });
                 </script>
-
             </td>
         </tr>
     </table>

@@ -1,5 +1,6 @@
 # BI-APP
 BI App incl. Admin Tool - JavaScript/CSS/HTML/PHP/MySQL
 
-![Startseite](https://i.postimg.cc/fb2x45Mx/screen1.jpg)
-![Edit Screen](https://i.postimg.cc/mg9qgzPz/screen2.jpg)
+![Startseite](https://i.postimg.cc/cLHJVzDM/sceen1.jpg)
+![Edit Screen](https://i.postimg.cc/KYPCQGn9/screen2.jpg)
+![PDF Generieren](https://i.postimg.cc/mkJdBJYz/pdf1.jpg)
