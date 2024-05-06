@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 // db_credentials.php
 $host = "localhost";
 $username = "root";
@@ -14,8 +13,6 @@ $conn = new mysqli($host, $username, $password, $database);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-} else {
-    echo "";
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -23,19 +20,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // SQL-Abfrage, um Benutzerdaten abzurufen
-    $sql = "SELECT * FROM login WHERE username = '$username' AND password = '$password'";
-    $result = $conn->query($sql);
+    // SQL-Abfrage, um zu überprüfen, ob der Benutzer bereits vorhanden ist
+    $check_sql = "SELECT * FROM login WHERE username = '$username'";
+    $check_result = $conn->query($check_sql);
 
-    if ($result->num_rows == 1) {
-        // Benutzer gefunden, setze die Benutzer-ID in der Session
-        $_SESSION["loggedin"] = true;
-        // Weiterleitung zur index.php
-        header("Location: index_admin.php");
-        exit;
+    if ($check_result->num_rows == 0) {
+        // Benutzer nicht vorhanden, füge neuen Benutzer hinzu
+        $insert_sql = "INSERT INTO login (username, password) VALUES ('$username', '$password')";
+        if ($conn->query($insert_sql) === TRUE) {
+            $_SESSION["loggedin"] = true;
+            // Weiterleitung zur index.php
+            header("Location: register_success.php");
+            exit;
+        } else {
+            $error = "Fehler beim Hinzufügen des Benutzers: " . $conn->error;
+        }
     } else {
-        // Wenn die Anmeldeinformationen ungültig sind, zeige eine Fehlermeldung an
-        $error = "Ungültige Anmeldeinformationen. Bitte versuchen Sie es erneut.";
+        // Wenn der Benutzer bereits vorhanden ist, zeige eine Fehlermeldung an
+        $error = "Benutzername bereits vergeben. Bitte wählen Sie einen anderen Benutzernamen.";
     }
 }
 
@@ -49,7 +51,7 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Neuer Benutzer</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -82,7 +84,7 @@ a:hover {
 
     </style>
  <div class="login-container">
-    <h2>Neuer Benutzer</h2>
+    <h2>Registrieren</h2>
     <br/>
     <h1></h1>
     <?php if (isset($error)) : ?>
@@ -97,7 +99,7 @@ a:hover {
             <label for="password">Passwort&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;</label>
             <input type="password" id="password" name="password" placeholder="Passwort" required>
         </div>
-        <button type="submit" class="btn">Einloggen</button>
+        <button type="submit" class="btn">Registrieren</button>
     </form>
 </div>
 
